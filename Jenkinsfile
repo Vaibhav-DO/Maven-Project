@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Testing..'
                 sh 'ls -la'
-                sh 'sudo cp -rf /tmp/myworkspace/webapp/target/webapp/* /var/www/html'
+                sh 'sudo rsync -avt /tmp/myworkspace/workspace/declarative_pipeline/webapp/target/webapp/* /var/www/html'
                 sh 'curl -kv http://54.87.0.154/index_dev.jsp'
                 
             }
