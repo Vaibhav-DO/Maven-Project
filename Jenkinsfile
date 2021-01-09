@@ -14,22 +14,19 @@ pipeline {
                 sh '/usr/local/src/apache-maven/bin/mvn clean install'
             }
         }
-        stage('SonarQube Scanning') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Sonarqube scanning completed'
-            }
-        }
-        stage('IQ Scanning') {
-            steps {
-                echo 'IQ scanning completed'
+                sh 'sudo docker build -t myweb:v1.0 .'
             }
         }
         stage('Testing') {
             steps {
                 echo 'Testing..'
                 sh 'ls -la'
-                sh 'sudo rsync -avt /tmp/myworkspace/workspace/declarative_pipeline/webapp/target/webapp/* /var/www/html'
-                sh 'curl -kv http://54.87.0.154/index_dev.jsp'
+                sh 'sudo cp -rf ${WORKSPACE}/webapp /tmp/myefs/docker_volume/'
+                sh 'sudo docker run -itd  --network=mynetwork --name webserver300${BUILD_NUMBER} -p 300${BUILD_NUMBER}:80 -v /tmp/myefs/docker_volume/:/var/www/html/ myweb:v1.0'
+                sh 'sudo docker ps'
+                sh 'curl -kv http://54.87.0.154:300${BUILD_NUMBER}/webapp/target/webapp/index_dev.jsp'
                 
             }
         }
