@@ -22,7 +22,7 @@ pipeline {
         stage('Configuring Docker Server for testing') {
             steps {
                 //sh 'ansible-playbook ansible/myrole/deployweb.yml'
-                sh 'ansible-playbook ansible/docker.yaml'
+                sh 'sudo ansible-playbook ansible/docker.yaml'
             }
         }
         stage('Deployment') {
