@@ -2,28 +2,47 @@
 - name: This sets up a Docker server
   hosts: ansibleclient1
   vars:
-      vol: /tmp/myefs/docker_volume
-      random_number: "{{ 100 | random }}"
+      vol: /tmp/myefs/docker_volume/
+
   tasks:
+  - name: set fact here
+    set_fact:
+      random_number: "{{ 100 | random }}"
+    run_once: yes
   - name: Installing Docker
     yum:
       name: docker
       state: present
-  - name: ensure docker is running
+  - name: Start Docker Service
     service:
       name: docker
       state: started
-  - name: installing docker image
-    shell: docker pull centos
+  - name: Enable Docker Service
+    service:
+      name: docker
+      enabled: yes
+  - name: Pulling Dockerfile as a snippet
+    shell: git clone https://gitlab.com/snippets/2041720.git
+    register: shell_result
+  - debug:
+      var: shell_result
+  - name: Build Docker Image
+    args:
+      chdir: 2041720
+    shell: docker build -t myweb:v1.0 .
     register: shell_result
   - debug:
       var: shell_result
   - name: Creating test container
     command: "{{ item }}"
     with_items:
-    - docker run -itd  --name=test"{{ random_number }}" centos
-    - docker run -itd --name=test"{{ random_number }}" -v "{{ vol }}":/tmp  centos
-#    shell: docker run -itd -v "{{ vol }}":/tmp  --name=ansibel_vol centos
+    - docker run -itd  --name=test_machine320"{{ random_number }}" centos
+    - docker run -itd --name=webserver320"{{ random_number }}" -p 320"{{ random_number }}":80 -v "{{ vol }}":/var/www/html/  myweb:v1.0
     register: shell_result
   - debug:
       var: shell_result
+  - name: Testing
+    shell: host myip.opendns.com resolver1.opendns.com | grep address |  awk '{print $4}'
+    register: shell_result
+  - debug:
+      msg: Testing URL is http://{{ shell_result.stdout }}:320{{ random_number }}/webapp/target/webapp/index_dev.jsp
