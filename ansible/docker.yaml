@@ -38,7 +38,7 @@
 
   - name: Final check gitlab snippet
     debug:
-      msg: "/root/2041720 directory exists"
+      msg: "/home/ec2-user/2041720 directory exists"
     when: shell_result.stat.exists
 
   - name: Build Docker Image
