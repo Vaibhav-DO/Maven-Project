@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+  labels:
+    app: myapp
+    tier: frontend
+spec:
+  replicas: 
+  template:
+    metadata:
+      name: myreplicatset
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: mywebserver
+          image: httpd
+  selector:
+    matchLabels:
+      app: myapp

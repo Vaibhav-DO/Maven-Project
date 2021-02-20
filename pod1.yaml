@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apachex
+  labels:
+    app: myapp1
+    type: frontend
+
+spec:
+  containers:
+    - name: myapache123
+      image: aamirs/aamirweb
+    - name: myapache1234
+      image: centos
