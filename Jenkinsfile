@@ -29,12 +29,8 @@ pipeline {
             steps {
                 sh 'curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl'
                 sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256'
-                sh 'openssl sha1 -sha256 kubectl'
-                sh 'chmod +x ./kubectl'
-                sh 'mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin'
-                sh 'echo export PATH=$PATH:$HOME/bin >> ~/.bashrc'
-                sh 'kubectl version --short --client'
-                sh 'kubectl create -f deployment-volume-definition.yml'
+                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f deployment-volume-definition.yml'
+                
             }
         }
     }
