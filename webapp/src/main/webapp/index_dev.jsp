@@ -8,7 +8,7 @@
 <br />
 <br />
 
-<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate"> Git + Jenkins + Ansible + Docker!!!</h1></marquee>
+<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate"> Kubernetes!!!</h1></marquee>
 
 
 
