@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Deployment') {
             steps {
-                echo 'Deployment..'
+                sh 'kubectl create -f deployment-volume-definition.yml'
             }
         }
     }
