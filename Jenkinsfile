@@ -32,7 +32,7 @@ pipeline {
                 sh 'openssl sha1 -sha256 kubectl'
                 sh 'chmod +x ./kubectl'
                 sh 'mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin'
-                sh 'echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc'
+                sh 'echo export PATH=$PATH:$HOME/bin >> ~/.bashrc'
                 sh 'kubectl version --short --client'
                 sh 'kubectl create -f deployment-volume-definition.yml'
             }
