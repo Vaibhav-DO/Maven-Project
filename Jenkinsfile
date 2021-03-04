@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Preparing volume for Containers') {
             steps {
-                sh 'sudo cp -rf ${WORKSPACE}/webapp /tmp/myefs/docker_volume/'
+                sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp /tmp/myefs/docker_volume/'
             }
         }
         stage('Configuring Docker Server for testing') {
@@ -35,7 +35,7 @@ pipeline {
                 sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f nodeport.yaml --record;kubectl get pods'
                 }
                 sh 'pwd'
-                sleep(5000)
+                sleep(5)
                 sh 'elinks http://myunlimitedwebspace.com:30008/docker_volume/webapp'
                 
                 
