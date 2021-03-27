@@ -70,16 +70,16 @@ pipeline {
                                 echo "Launching the LoadBalancer Now"
                                 sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc"
                             }
+                            sh 'pwd'
+                            sleep(5)
+                            def mylink = sh(script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
+                            echo mylink
+                            echo "Please browse below URL for the PROD APP Service"
+                            sh 'curl -kv http://${mylink}/docker_volume/webapp/index_dev.jsp'
                         }
-                    sh 'pwd'
-                    sleep(5)
-                    def mylink = sh(script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
-                    echo mylink
-                    echo "Please browse below URL for the PROD APP Service"
-                    sh 'curl -kv http://${mylink}/docker_volume/webapp/index_dev.jsp'
+                    }
                 }
             }
         }
     }
-}
 
