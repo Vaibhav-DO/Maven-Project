@@ -60,4 +60,4 @@
     shell: host myip.opendns.com resolver1.opendns.com | grep address |  awk '{print $4}'
     register: shell_result
   - debug:
-      msg: Testing URL is http://{{ shell_result.stdout }}:320{{ random_number }}/webapp/target/webapp/index_dev.jsp
+      msg: Testing URL is http://{{ shell_result.stdout }}:320{{ random_number }}/webapp/index_dev.jsp
