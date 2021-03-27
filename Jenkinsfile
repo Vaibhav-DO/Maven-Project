@@ -37,7 +37,7 @@ pipeline {
 
                         def mycode = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get deployment | grep frontend")
                         
-                        println(mycode.getClass())
+                        //println(mycode.getClass())
                         def key1 = mycode.toString()
 
                         if (key1 == "0") {
@@ -56,7 +56,7 @@ pipeline {
 
                         def mycode2 = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service")
 
-                        println(mycode2.getClass())
+                        //println(mycode2.getClass())
                         def key2 = mycode2.toString()
 
                             if (key2 == "0") {
@@ -73,7 +73,7 @@ pipeline {
                         }
                     sh 'pwd'
                     sleep(5)
-                    def mylink = sh(script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }", returnStdout: true)
+                    def mylink = sh(script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
                     echo mylink
                     echo "Please browse below URL for the PROD APP Service"
                     sh 'curl -kv http://${mylink}/docker_volume/webapp/index_dev.jsp'
