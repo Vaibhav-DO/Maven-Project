@@ -36,7 +36,7 @@ pipeline {
                 }
                 sh 'pwd'
                 sleep(5)
-                sh 'elinks http://radical.myunlimitedwebspace.com:30008/docker_volume/webapp'
+                sh 'elinks http://radical.myunlimitedwebspace.com/docker_volume/webapp/index_dev.jsp'
                 
                 
                 
