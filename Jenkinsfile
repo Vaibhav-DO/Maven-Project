@@ -33,28 +33,44 @@ pipeline {
                         sh 'aws eks update-kubeconfig  --region us-west-2   --name myeks'
                         sh 'curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl'
                         sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256'
-                        /*sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'*/
-                        
+                                               
 
                         def mycode = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get deployment | grep frontend")
                         
                         println(mycode.getClass())
                         def key1 = mycode.toString()
 
+                        if (key1 == "0") {
+                        
+                            echo "Deployment already exist
+                            echo "Deleting it & creating a new one"
+                            sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl delete deployment/frontend'
+
+                            sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f deployment.yaml --record;kubectl get deployments'
+                            
+                            }
+                            else {
+
+                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record;kubectl get deployments'
+                            }
+
                         def mycode2 = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service")
 
                         println(mycode2.getClass())
                         def key2 = mycode2.toString()
 
-                        if (mycode == "0" && mycode1 == "0") {
-                        
-                        sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'
+                            if (key2 == "0") {
+                            
+                            echo "Service already Created"
+                            sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl get svc'
 
+                            echo "Mapped it to your current deployment"
+            
+                            }
+                            else {
+                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'
+                            }
                         }
-                        else {
-                            echo "Deployment either service already running. Please stop that before runing it again"
-                        }
-                    }
                     sh 'pwd'
                     sleep(5)
                     sh 'elinks http://radical.myunlimitedwebspace.com/docker_volume/webapp/index_dev.jsp'
