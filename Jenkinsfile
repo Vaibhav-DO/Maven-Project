@@ -51,7 +51,7 @@ pipeline {
                             }
                             else {
 
-                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record;kubectl get deployments'
+                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f deployment.yaml --record;kubectl get deployments'
                             }
 
                         def mycode2 = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service")
@@ -62,8 +62,7 @@ pipeline {
                             if (key2 == "0") {
                             
                             echo "LoadBalancer Service already Created"
-                            sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl get svc'
-
+                            sleep(3)
                             echo "Mapped it to your current deployment"
             
                             }
@@ -76,7 +75,7 @@ pipeline {
                     sleep(5)
                     def mylink = sh(script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }", returnStdout: true)
                     echo mylink
-                    
+                    echo "Please browse below URL for the PROD APP Service"
                     sh 'curl -kv http://${mylink}/docker_volume/webapp/index_dev.jsp'
                 }
             }
