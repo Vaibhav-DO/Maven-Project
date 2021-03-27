@@ -17,12 +17,12 @@ pipeline {
                 sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp /tmp/myefs/docker_volume/'
             }
         }
-        /*stage('Configuring Docker Server for testing') {
+        stage('Configuring Docker Server for testing') {
             steps {
                 //sh 'ansible-playbook ansible/myrole/deployweb.yml'
                 sh 'ansible-playbook ansible/docker.yaml'
             }
-        }*/
+        }
         stage('Deployment') {
             steps {
                 script {
@@ -76,7 +76,7 @@ pipeline {
                             def mylink=mylink1.toString()
                             echo mylink
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://$mylink/docker_volume/webapp/index_dev.jsp"
+                            sh "curl -kv http://${mylink}/docker_volume/webapp/index_dev.jsp"
                         }
                     }
                 }
