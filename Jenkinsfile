@@ -7,11 +7,11 @@ pipeline {
     }
     
     stages {
-        /*stage('Build') {
+        stage('Build') {
             steps {
                 sh '/usr/local/src/apache-maven/bin/mvn clean install'
             }
-        }*/
+        }
         stage('Preparing volume for Containers') {
             steps {
                 sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp /tmp/myefs/docker_volume/'
@@ -22,7 +22,7 @@ pipeline {
                 //sh 'ansible-playbook ansible/myrole/deployweb.yml'
                 sh 'ansible-playbook ansible/docker.yaml'
             }
-        }*/
+        }
         stage('Deployment') {
             steps {
                 script {
@@ -71,14 +71,9 @@ pipeline {
                                 sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc"
                             }
                             sh 'pwd'
-                            //sleep(5)
-                            def mylink1 = sh(script: "chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
-                            def String mylink=mylink1.toString()
-                            def String mylink_part="/docker_volume/webapp/index_dev.jsp"
-                            def String mylink_org=mylink + mylink_part
-                            echo mylink_org
+                            sleep(5)
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://${mylink_org}"
+                            sh "curl -kv http://a91ac6875558844da91ab6d8c63cf47a-1159153894.us-west-2.elb.amazonaws.com/docker_volume/webapp/index_dev.jsp"
                         }
                     }
                 }
