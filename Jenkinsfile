@@ -77,7 +77,7 @@ pipeline {
                             def mylink_part="/docker_volume/webapp/index_dev.jsp"
                             echo mylink
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://${mylink}/${mylink_part}"
+                            sh "curl -kv http://${mylink}/docker_volume"
                         }
                     }
                 }
