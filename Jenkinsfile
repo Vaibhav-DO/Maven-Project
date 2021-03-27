@@ -7,11 +7,11 @@ pipeline {
     }
     
     stages {
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 sh '/usr/local/src/apache-maven/bin/mvn clean install'
             }
-        }
+        }*/
         stage('Preparing volume for Containers') {
             steps {
                 sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp /tmp/myefs/docker_volume/'
@@ -74,7 +74,7 @@ pipeline {
                             sleep(5)
                             def mylink1 = sh(script: "chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
                             def mylink=mylink1.toString()
-                            def mylink_part=/docker_volume/webapp/index_dev.jsp
+                            def mylink_part="/docker_volume/webapp/index_dev.jsp"
                             echo mylink
                             echo "Please browse below URL for the PROD APP Service"
                             sh "curl -kv http://${mylink}/${mylink_part}"
