@@ -1,3 +1,5 @@
+// Please follow below link to install Amazon EC2 plugin & add below mentioned credentials
+// https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-jenkins.html
 pipeline {
     agent {label 'linux'}
 
