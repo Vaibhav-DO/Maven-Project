@@ -62,7 +62,7 @@ pipeline {
                             if (key2 == "0") {
                             
                             echo "LoadBalancer Service already Created"
-                            sleep(3)
+                            //sleep(3)
                             echo "Mapped it to your current deployment"
             
                             }
@@ -71,13 +71,13 @@ pipeline {
                                 sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc"
                             }
                             sh 'pwd'
-                            sleep(5)
+                            //sleep(5)
                             def mylink1 = sh(script: "chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
                             def mylink=mylink1.toString()
                             def mylink_part="/docker_volume/webapp/index_dev.jsp"
                             echo mylink
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://${mylink}/docker_volume"
+                            sh " curl -kv http://" + ${mylink} + "/docker_volume"
                         }
                     }
                 }
