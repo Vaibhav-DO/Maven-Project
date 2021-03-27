@@ -42,7 +42,7 @@ pipeline {
 
                         if (key1 == "0") {
                         
-                            echo "Deployment already exist
+                            echo "Deployment already exist"
                             echo "Deleting it & creating a new one"
                             sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl delete deployment/frontend'
 
