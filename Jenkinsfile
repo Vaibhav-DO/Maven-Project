@@ -61,14 +61,15 @@ pipeline {
 
                             if (key2 == "0") {
                             
-                            echo "Service already Created"
+                            echo "LoadBalancer Service already Created"
                             sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl get svc'
 
                             echo "Mapped it to your current deployment"
             
                             }
                             else {
-                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'
+                                echo "Launching the LoadBalancer Now"
+                                sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc'
                             }
                         }
                     sh 'pwd'
