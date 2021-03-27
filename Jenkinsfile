@@ -73,7 +73,7 @@ pipeline {
                             sh 'pwd'
                             sleep(5)
                             def mylink1 = sh(script: "chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep myfrontend-service | awk '{ print \$4 }'", returnStdout: true)
-                            export mylink=mylink1
+                            def mylink=mylink1.toString()
                             echo mylink
                             echo "Please browse below URL for the PROD APP Service"
                             sh "curl -kv http://$mylink/docker_volume/webapp/index_dev.jsp"
