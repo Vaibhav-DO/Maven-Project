@@ -34,10 +34,11 @@ pipeline {
                 sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256'
                 /*sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'*/
                 }
-                def mycode = sh script:kubectl get deployment | grep frontend, returnStatus:true
-                def mycode1 = sh script:kubectl get svc | grep myfrontend-service, returnStatus:true
 
-                if (mycode == "0" && mycode1 == "0") {
+                def int mycode = sh(script: 'kubectl get deployment | grep frontend', returnStdout: true)
+                def int mycode1 = sh(script: 'kubectl get svc | grep myfrontend-service', returnStdout: true)\
+
+                if (mycode == 0 && mycode1 == 0) {
                 
                 sh 'openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl get nodes;kubectl create -f deployment.yaml --record; kubectl create -f LoadBalancer-service.yml --record;kubectl get pods'
 
@@ -55,3 +56,4 @@ pipeline {
         }
     }
 }
+
