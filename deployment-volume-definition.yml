@@ -6,7 +6,7 @@ metadata:
     app: myapp
     type: frontend
 spec:
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       name: myreplicaset
@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
         - name: mywebserver
-          image: aamirs/aamirweb
+          image: aamirs/myweb:v1.0
+          command: [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
           volumeMounts:
-            - name: efs-pvc
-              mountPath: "/var/www/html/"
+            - name: efs-pv
+              mountPath: "/var/www/html"
       volumes:
-        - name: efs-pvc
+        - name: efs-pv
           persistentVolumeClaim:
             claimName: efs-claim
   selector:
