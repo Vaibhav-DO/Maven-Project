@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: myapp
+    tier: frontend
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: myreplicaset
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: mywebserver
+          image: aamirs/myweb:v1.0
+          command: [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
+          volumeMounts:
+            - name: efs-pv
+              mountPath: "/var/www/html"
+      volumes:
+        - name: efs-pv
+          persistentVolumeClaim:
+            claimName: efs-claim
+  selector:
+    matchLabels:
+      app: myapp
