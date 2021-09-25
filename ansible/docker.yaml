@@ -1,6 +1,6 @@
 ---
 - name: This sets up a Docker server
-  hosts: ansibleclient1
+  hosts: testvm-dev
   remote_user: ec2-user
   become: true
   become_method: sudo
