@@ -4,7 +4,7 @@ metadata:
   name: frontend
   labels:
     app: myapp
-    tier: frontend
+    type: frontend
 spec:
   replicas: 3
   template:
@@ -17,7 +17,13 @@ spec:
         - name: mywebserver
           image: aamirs/myweb:v1.0
           command: [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
-          
+          volumeMounts:
+            - name: efs-pv
+              mountPath: "/var/www/html"
+      volumes:
+        - name: efs-pv
+          persistentVolumeClaim:
+            claimName: efs-claim
   selector:
     matchLabels:
       app: myapp
