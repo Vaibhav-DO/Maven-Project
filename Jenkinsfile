@@ -29,8 +29,8 @@ pipeline {
                     dir('kubernetes') {
                         sh "pwd"
                         sh 'ls -la'
-                        sh 'aws configure set region us-west-2'
-                        sh 'aws eks update-kubeconfig --region us-west-2 --name myeks'
+                        sh 'aws configure set region us-east-2'
+                        sh 'aws eks update-kubeconfig --region us-east-2 --name myeks'
                         sh 'curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl'
                         sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl.sha256'
                                                
