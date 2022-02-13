@@ -8,7 +8,7 @@
 <br />
 <br />
 
-<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate"> Devops + Radical !!!</h1></marquee>
+<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate"> Complete CICD with Gitlab, Docker Ansible & K8s - Dev !!!</h1></marquee>
 
 
 

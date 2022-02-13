@@ -7,8 +7,8 @@
 <br />
 <br />
 <br />
-<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate">Running on Master Branch...!!!</h1></marquee>
-<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate">END to END CICD...!!!</h1></marquee>
+<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate">Complete CICD with Gitlab, Docker Ansible & K8s - Master !!! !!!</h1></marquee>
+<h1 style="color:white; font-family:verdana; text-align:center; font-size:400%"><marquee behavior="alternate"> Pipeline Completed !!!</h1></marquee>
 </body>
 </html>
 
