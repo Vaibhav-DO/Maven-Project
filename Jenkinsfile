@@ -35,7 +35,7 @@ pipeline {
                         sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/darwin/amd64/kubectl.sha256'
                                                
 
-                        def mycode = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get deployment | grep frontend")
+                        def mycode = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl get deployment | grep frontend")
                         
                         //println(mycode.getClass())
                         def key1 = mycode.toString()
@@ -45,15 +45,15 @@ pipeline {
                             echo "Deployment already exist"
                             echo "Reconfiguring it as per new changes."
                             
-                            sh 'chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl apply -f deployment.yaml --record;kubectl get deployments'
+                            sh 'chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl version --short --client;kubectl apply -f deployment.yaml --record;kubectl get deployments'
                             
                             }
                             else {
 
-                                sh 'chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f deployment.yaml --record;kubectl get deployments'
+                                sh 'chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl version --short --client;kubectl create -f deployment.yaml --record;kubectl get deployments'
                             }
 
-                            def mycode2 = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl get svc | grep mylb-service")
+                            def mycode2 = sh(returnStatus: true, script: "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profilec;kubectl get svc | grep mylb-service")
 
                             //println(mycode2.getClass())
                             def key2 = mycode2.toString()
@@ -67,12 +67,12 @@ pipeline {
                             }
                             else {
                                 echo "Launching the LoadBalancer Now"
-                                sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin;echo export PATH=$PATH:$HOME/bin >> ~/.bashrc;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc"
+                                sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc"
                             }
                             sh 'pwd'
                             sleep(5)
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://myunlimitedwebspace.com/docker_volume/"
+                            sh "curl -kv http://abeab56bc39244b448475dd691f6eff1-2101201521.us-east-2.elb.amazonaws.com/docker_volume/webapp"
                         }
                     }
                 }
