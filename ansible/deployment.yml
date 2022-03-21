@@ -12,14 +12,14 @@
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
   tasks:
-  - name: Check PHP
-    shell: which php
+  - name: Check Squid
+    shell: which squid
     ignore_errors: yes
     register: shell_result
   - debug:
       var: shell_result
-  - name: Installing php
-    shell: yum install php -y
+  - name: Installing Squid
+    shell: yum install squid -y
     when: shell_result.rc > 0 
     register: shell_result1
   - debug:
