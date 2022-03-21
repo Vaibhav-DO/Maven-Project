@@ -23,8 +23,8 @@
     with_items:
     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     - unzip -o awscliv2.zip
-    - sudo rm -rf /usr/local/aws-cli
-    - sudo ./aws/install --update
+    - rm -rf /usr/local/aws-cli
+    - ./aws/install --update
     - aws --version
     when: shell_result.rc > 0 
     register: shell_result1
