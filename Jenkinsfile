@@ -73,15 +73,16 @@ pipeline {
                     
                 }
             }
-        }
+        }*/
         stage('Configuring Docker Server for testing') {
             steps {
                 
-                //sh 'ansible-playbook ansible/myrole/deployweb.yml'
+                pwd
+                ls -l
         
                 
             }
-        }*/
+        }
         stage('Deployment') {
             steps {
                 sh 'ansible-playbook ansible/deployment_gke.yml'
