@@ -12,14 +12,20 @@
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
   tasks:
-  - name: Check Squid
-    shell: which squid
+  - name: Check AWS CLI
+    shell: which aws
     ignore_errors: yes
     register: shell_result
   - debug:
       var: shell_result
-  - name: Installing Squid
-    shell: yum install squid -y
+  - name: Installing AWS CLI
+    command: "{{ item }}"
+    with_items:
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    - unzip -o awscliv2.zip
+    - sudo rm -rf /usr/local/aws-cli
+    - sudo ./aws/install --update
+    - aws --version
     when: shell_result.rc > 0 
     register: shell_result1
   - debug:
