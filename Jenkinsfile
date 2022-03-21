@@ -85,7 +85,7 @@ pipeline {
         }
         stage('Deployment') {
             steps {
-                sh 'ansible-playbook ansible/deployment_gke.yml'
+                sh 'ansible-playbook ansible/deployment.yml'
             }
         }
     }
