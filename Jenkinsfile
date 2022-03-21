@@ -18,7 +18,7 @@ pipeline {
                 url: 'https://gitlab.com/andromeda99/maven-project.git'
             }
         }
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 sh '/usr/local/src/apache-maven/bin/mvn clean install'
             }
@@ -78,12 +78,13 @@ pipeline {
             steps {
                 
                 //sh 'ansible-playbook ansible/myrole/deployweb.yml'
-                sh 'ansible-playbook ansible/docker_push.yml'
+        
+                
             }
-        }
+        }*/
         stage('Deployment') {
             steps {
-                echo 'Deployment..'
+                sh 'ansible-playbook ansible/deployment_gke.yml'
             }
         }
     }
