@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
         steps {
-            git branch: 'dev-ansible',
+            git branch: 'deployment',
                 credentialsId: 'git-https-creds',
                 url: 'https://gitlab.com/andromeda99/maven-project.git'
             }
