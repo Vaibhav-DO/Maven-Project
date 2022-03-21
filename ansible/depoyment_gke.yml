@@ -12,6 +12,12 @@
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
   tasks:
+  - name: Installing pip
+    yum:
+      name: pip
+      state: present
+  - name: Installing docker-py
+    shell: pip install docker-py
   - name: Check AWS CLI
     shell: which aws
     register: shell_result
