@@ -27,6 +27,7 @@
     - rm -rf /usr/local/aws-cli
     - ./aws/install --update
     - aws --version
+    become: false
     when: shell_result.rc > 0 
     register: shell_result1
   - debug:
