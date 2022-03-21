@@ -77,8 +77,8 @@ pipeline {
         stage('Configuring Docker Server for testing') {
             steps {
                 
-                pwd
-                ls -l
+                sh "pwd"
+                sh "ls -l"
         
                 
             }
