@@ -73,13 +73,12 @@
     - aws configure set aws_secret_access_key {{ secret_key }}
     - aws configure set region {{ aws_region }}
     become: false
-    register: shell_result
+    register: shell_result_aws
   - debug:
-      var: shell_result
+      var: shell_result_aws
   - name: Integrating GKE with AWS CLI
     shell: aws eks update-kubeconfig --region {{ aws_region }} --name {{ gke_cluster }}
     become: false
-    when: shell_result_kube.rc == 0 
     register: shell_result
   - debug:
       var: shell_result
