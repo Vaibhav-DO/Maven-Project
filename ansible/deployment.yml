@@ -65,7 +65,7 @@
     - pwd
     - ls -la
     become: false
-    when: shell_result_install.rc == 0 
+    when: shell_result_kube.rc == 0 
     register: shell_result
   - debug:
       var: shell_result
