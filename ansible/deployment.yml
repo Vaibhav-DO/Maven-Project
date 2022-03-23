@@ -32,9 +32,9 @@
     - aws --version
     become: false
     when: shell_result.rc > 0 
-    register: shell_result
+    register: shell_result1
   - debug:
-      var: shell_result
+      var: shell_result1
   - name: Check Kubectl
     shell: /home/ec2-user/bin/kubectl
     become: false
