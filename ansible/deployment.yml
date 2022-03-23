@@ -59,7 +59,9 @@
   - debug:
       var: shell_result_install
   - name: Checking Kubectl CLI Installing - Final check
-    shell: {{ kubecli }} version --short --client
+    command: "{{ item }}"
+    with_items:
+    - {{ kubecli }} version --short --client
     become: false
     when: shell_result_kube.rc == 0 
     register: shell_result
