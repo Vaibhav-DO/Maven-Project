@@ -69,10 +69,10 @@
   - name: Configuring aws cli to connect to the gke_cluster
     command: "{{ item }}"
     with_items: 
-    - echo export AWS_ACCESS_KEY_ID={{ access_key }} >> ~/.bashrc
-    - echo export AWS_SECRET_ACCESS_KEY={{ secret_key }} >> ~/.bashrc
-    - echo export AWS_DEFAULT_REGION={{ aws_region }} >> ~/.bashrc
-    - source ~/.bashrc
+    - echo export AWS_ACCESS_KEY_ID={{ access_key }} >> /home/ec2-user/.bashrc
+    - echo export AWS_SECRET_ACCESS_KEY={{ secret_key }} >> /home/ec2-user/.bashrc
+    - echo export AWS_DEFAULT_REGION={{ aws_region }} >> /home/ec2-user/.bashrc
+    - source /home/ec2-user/.bashrc
     become: false
     register: shell_result
   - debug:
