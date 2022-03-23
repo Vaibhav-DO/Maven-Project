@@ -6,7 +6,7 @@
   become_method: sudo
   vars_files:
        - docker_token.yml
-       - aws_cred.yml
+       - aws_creds.yml
   vars:
     vol: "/tmp/myefs/docker_volume/"
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
