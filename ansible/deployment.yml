@@ -73,6 +73,10 @@
     - echo export AWS_SECRET_ACCESS_KEY={{ secret_key }} >> ~/.bashrc
     - echo export AWS_DEFAULT_REGION={{ aws_region }} >> ~/.bashrc
     - source ~/.bashrc
+    become: false
+    register: shell_result
+  - debug:
+      var: shell_result
   - name: Integrating GKE with AWS CLI
     shell: aws eks update-kubeconfig --region {{ aws_region }} --name {{ gke_cluster }}
     become: false
