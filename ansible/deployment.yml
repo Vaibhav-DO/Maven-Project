@@ -12,7 +12,7 @@
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
     user: ec2-user
-    git_pre_requisites_install_cmds: "chmod +x ./kubectl && mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin && echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc && kubectl version --short --client"
+    git_pre_requisites_install_cmds: ""
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -51,12 +51,12 @@
   - debug:
       var: shell_result
   - name: Installing Kubectl CLI
-    shell: "{{ git_pre_requisites_install_cmds }}" 
+    shell: "chmod +x ./kubectl && mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin && echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc && kubectl version --short --client" 
     when: shell_result.rc > 0 
     become: false
-    register: shell_result
+    register: shell_result1
   - debug:
-      var: shell_result
+      var: shell_result1
 
     
 
