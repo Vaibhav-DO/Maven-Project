@@ -7,12 +7,12 @@
   vars_files:
        - docker_token.yml
   vars:
-    vol: /tmp/myefs/docker_volume/
+    vol: "/tmp/myefs/docker_volume/"
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
-    user: ec2-user
-    kubecli: /home/ec2-user/bin/kubectl
+    user: "ec2-user"
+    kubecli: "/home/ec2-user/bin/kubectl"
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -59,7 +59,7 @@
   - debug:
       var: shell_result_install
   - name: Checking Kubectl CLI Installing - Final check
-    shell: "{{ kubecli }}" version --short --client
+    shell: {{ kubecli }} version --short --client
     become: false
     when: shell_result_kube.rc == 0 
     register: shell_result
