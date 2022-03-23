@@ -35,7 +35,7 @@
   - debug:
       var: shell_result
   - name: Check Kubectl
-    shell: kubectl
+    shell: /home/ec2-user/bin/kubectl
     become: false
     ignore_errors: yes
     register: shell_result_kube
