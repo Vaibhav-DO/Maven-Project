@@ -58,10 +58,10 @@
     register: shell_result_install
   - debug:
       var: shell_result_install
-  - name: Installing Kubectl CLI
+  - name: Checking Kubectl CLI Installing - Final check
     shell: "kubectl version --short --client"
     become: false
-    when: shell_result_install.rc > 0 
+    when: shell_result_install.rc == 0 
     register: shell_result
   - debug:
       var: shell_result
