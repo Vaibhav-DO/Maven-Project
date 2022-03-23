@@ -59,7 +59,10 @@
   - debug:
       var: shell_result_install
   - name: Checking Kubectl CLI Installing - Final check
-    shell: "kubectl version --short --client"
+    command: "{{ item }}"
+    - whoami
+    - pwd
+    - ls -la
     become: false
     when: shell_result_install.rc == 0 
     register: shell_result
