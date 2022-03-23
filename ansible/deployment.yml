@@ -11,6 +11,7 @@
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
+    user: ec2-user
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -47,9 +48,9 @@
     - openssl sha1 -sha256 kubectl
     - chmod +x ./kubectl
     - mkdir -p $HOME/bin
-    - cp ./kubectl $HOME/bin/kubectl
-    - export PATH=$PATH:$HOME/bin
-    - echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+    - cp ./kubectl $HOME/{{ user }}/bin/kubectl
+    - export PATH=$PATH:$HOME/{{ user }}/bin
+    - echo 'export PATH=$PATH:$HOME/{{ user }}/bin' >> ~/.bashrc
     - kubectl version --short --client
     become: false
     register: shell_result
