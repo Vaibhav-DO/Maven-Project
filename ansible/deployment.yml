@@ -84,6 +84,10 @@
       var: shell_result
   - name: Setting kubectl context
     shell: /home/ec2-user/bin/kubectl config set-context --current --namespace={{ namespace }}
+    become: false
+    register: shell_result
+  - debug:
+      var: shell_result
   - name: Deploying GKE object - deployment
     shell: /home/ec2-user/bin/kubectl get deployment
     become: false
