@@ -5,15 +5,15 @@
   become: true
   become_method: sudo
   vars_files:
-       - docker_token.yml
        - aws_creds.yml
   vars:
-    vol: "/tmp/myefs/docker_volume/"
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
     gke_cluster: "{{ lookup('env', 'gke_cluster') }}"
     aws_region: "{{ lookup('env', 'aws_region') }}"
+    namespace: "{{ lookup('env', 'namespace') }}"
+
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -78,6 +78,12 @@
       var: shell_result_aws
   - name: Integrating GKE with AWS CLI
     shell: aws eks update-kubeconfig --region {{ aws_region }} --name {{ gke_cluster }}
+    become: false
+    register: shell_result
+  - debug:
+      var: shell_result
+  - name: Deploying GKE object - deployment
+    shell: /home/ec2-user/bin/kubectl get deployment -n {{ namespace }}
     become: false
     register: shell_result
   - debug:
