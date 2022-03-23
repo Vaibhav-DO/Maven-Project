@@ -35,7 +35,7 @@
   - debug:
       var: shell_result
   - name: Check Kubectl
-    shell: which kubectl
+    shell: kubectl
     become: false
     ignore_errors: yes
     register: shell_result_kube
@@ -55,6 +55,13 @@
     shell: "chmod +x ./kubectl && mkdir -p $HOME/bin && sudo cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin/kubectl && echo 'export PATH=$PATH:$HOME/bin/kubectl' >> ~/.bashrc && source ~/.bashrc"
     become: false
     when: shell_result_kube.rc > 0 
+    register: shell_result_install
+  - debug:
+      var: shell_result_install
+  - name: Installing Kubectl CLI
+    shell: "kubectl version --short --client"
+    become: false
+    when: shell_result_install.rc > 0 
     register: shell_result
   - debug:
       var: shell_result
