@@ -60,6 +60,7 @@
       var: shell_result_install
   - name: Checking Kubectl CLI Installing - Final check
     command: "{{ item }}"
+    with_items:
     - whoami
     - pwd
     - ls -la
