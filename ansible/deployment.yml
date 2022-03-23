@@ -69,9 +69,9 @@
   - name: Configuring aws cli to connect to the gke_cluster
     command: "{{ item }}"
     with_items: 
-    - export AWS_ACCESS_KEY_ID={{ access_key }}
-    - export AWS_SECRET_ACCESS_KEY={{ secret_key }}
-    - export AWS_DEFAULT_REGION={{ aws_region }}
+    - echo export AWS_ACCESS_KEY_ID={{ access_key }} >> ~/.bashrc
+    - echo export AWS_SECRET_ACCESS_KEY={{ secret_key }} >> ~/.bashrc
+    - echo export AWS_DEFAULT_REGION={{ aws_region }} >> ~/.bashrc
   - name: Integrating GKE with AWS CLI
     shell: aws eks update-kubeconfig --region {{ aws_region }} --name {{ gke_cluster }}
     become: false
