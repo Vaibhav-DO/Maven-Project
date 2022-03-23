@@ -6,13 +6,13 @@
   become_method: sudo
   vars_files:
        - docker_token.yml
+       - aws_cred.yml
   vars:
     vol: "/tmp/myefs/docker_volume/"
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
-    user: "ec2-user"
-    kubecli: /home/ec2-user/bin/kubectl
+    gke_cluster: "myeks"
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -60,6 +60,19 @@
       var: shell_result_install
   - name: Checking Kubectl CLI Installing - Final check
     shell: /home/ec2-user/bin/kubectl version --short --client
+    become: false
+    when: shell_result_kube.rc == 0 
+    register: shell_result
+  - debug:
+      var: shell_result
+  - name: Installing eksctl to get GKE cluster info on the client
+    command: "{{ item }}"
+    with_items:
+    - curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C .
+    - sudo mv /tmp/eksctl /usr/local/bin
+    - eksctl version
+  - name: Integrating GKE with AWS CLI
+    shell: aws eks update-kubeconfig --region us-west-2 --name {{ gke_cluster }}
     become: false
     when: shell_result_kube.rc == 0 
     register: shell_result
