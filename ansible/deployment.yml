@@ -48,7 +48,7 @@
     - curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl.sha256
     - openssl sha1 -sha256 kubectl
     register: shell_result
-     debug:
+    debug:
       var: shell_result
   - name: Installing Kubectl CLI
     shell: "{{ git_pre_requisites_install_cmds }}" 
