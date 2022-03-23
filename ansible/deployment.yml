@@ -12,7 +12,8 @@
     IMAGE: "{{ lookup('env', 'IMAGE') }}"
     DockerHub_repo: "{{ lookup('env', 'DockerHub_repo') }}"
     VER: "{{ lookup('env', 'VER') }}"
-    gke_cluster: "myeks"
+    gke_cluster: "{{ lookup('env', 'gke_cluster') }}"
+    aws_region: "{{ lookup('env', 'aws_region') }}"
   tasks:
   - name: Check AWS CLI
     shell: which aws
@@ -65,14 +66,14 @@
     register: shell_result
   - debug:
       var: shell_result
-  - name: Installing eksctl to get GKE cluster info on the client
+  - name: Configuring aws cli to connect to the gke_cluster
     command: "{{ item }}"
-    with_items:
-    - curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C .
-    - sudo mv /tmp/eksctl /usr/local/bin
-    - eksctl version
+    with_items: 
+    - export AWS_ACCESS_KEY_ID={{ access_key }}
+    - export AWS_SECRET_ACCESS_KEY={{ secret_key }}
+    - export AWS_DEFAULT_REGION={{ aws_region }}
   - name: Integrating GKE with AWS CLI
-    shell: aws eks update-kubeconfig --region us-west-2 --name {{ gke_cluster }}
+    shell: aws eks update-kubeconfig --region {{ aws_region }} --name {{ gke_cluster }}
     become: false
     when: shell_result_kube.rc == 0 
     register: shell_result

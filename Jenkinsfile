@@ -7,6 +7,8 @@ pipeline {
         IMAGE = "myweb"
         VER = "radical-${env.JOB_NAME}-${env.BUILD_ID}"
         DockerHub_repo = "aamirs/radical-private-repo"
+        gke_cluster = "myeks"
+        aws_region = "us-west-2"
     }
 
     
