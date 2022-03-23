@@ -40,7 +40,7 @@
     ignore_errors: yes
     register: shell_result_kube
   - debug:
-      var: shell_result
+      var: shell_result_kube
   - name: Downloading Kubectl CLI
     command: "{{ item }}"
     with_items:
