@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: dev
+  namespace: prod
   labels:
     app: myapp
     type: frontend
@@ -15,16 +15,19 @@ spec:
         app: myapp
     spec:
       containers:
-        - name: mywebserver
-          image: aamirs/myweb:v1.0
-          command: [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
-          volumeMounts:
-            - name: efs-pv
-              mountPath: "/var/www/html"
+      - name: mywebserver
+        image: aamirs/radical-private-repo:v1.0
+        command: [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
+        volumeMounts:
+          - name: efs-pv
+            mountPath: "/var/www/html"
+      imagePullSecrets:
+      - name: mydocker
       volumes:
         - name: efs-pv
           persistentVolumeClaim:
             claimName: efs-claim
+
   selector:
     matchLabels:
       app: myapp

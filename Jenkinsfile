@@ -4,7 +4,11 @@ pipeline {
      environment {
         AWS_ACCESS_KEY_ID     = credentials('myawscreds')
         AWS_SECRET_ACCESS_KEY = credentials('myawscreds')
-        nameSpace="dev"
+        nameSpace="prod"
+        eks_cluster="myeks"
+        aws_region="us-west-2"
+        lb_link="http://a0d1fccc81f8540b6b844e3489279e36-340530396.us-west-2.elb.amazonaws.com/docker_volume/webapp/"
+        efs_vol="/tmp/myefs/docker_volume/"
     }
     
     stages {
@@ -15,7 +19,7 @@ pipeline {
         }
         stage('Preparing volume for Containers') {
             steps {
-                sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp /tmp/myefs/docker_volume/'
+                sh 'sudo cp -rf ${WORKSPACE}/webapp/target/webapp ${efs_vol}'
             }
         }
         stage('Configuring Docker Server for testing') {
@@ -30,8 +34,8 @@ pipeline {
                     dir('kubernetes') {
                         sh "pwd"
                         sh 'ls -la'
-                        sh 'aws configure set region us-east-2'
-                        sh 'aws eks update-kubeconfig --region us-east-2 --name myeks'
+                        sh 'aws configure set region ${aws_region}'
+                        sh 'aws eks update-kubeconfig --region ${aws_region} --name ${eks_cluster}'
                         sh 'curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl'
                         sh 'curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl.sha256'
                                                
@@ -73,7 +77,7 @@ pipeline {
                             sh 'pwd'
                             sleep(5)
                             echo "Please browse below URL for the PROD APP Service"
-                            sh "curl -kv http://abeab56bc39244b448475dd691f6eff1-2101201521.us-east-2.elb.amazonaws.com/docker_volume/webapp"
+                            sh "curl -kv ${lb_link}"
                         }
                     }
                 }
