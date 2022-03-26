@@ -72,7 +72,7 @@ pipeline {
                             }
                             else {
                                 echo "Launching the LoadBalancer Now"
-                                sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml --record;kubectl get svc -n ${nameSpace}"
+                                sh "openssl sha1 -sha256 kubectl;chmod +x ./kubectl;mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH;echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile;kubectl version --short --client;kubectl create -f LoadBalancer-service.yml -n ${nameSpace}; kubectl get svc -n ${nameSpace}"
                             }
                             sh 'pwd'
                             sleep(5)
