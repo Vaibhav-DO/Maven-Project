@@ -7,7 +7,7 @@ pipeline {
         nameSpace="prod"
         eks_cluster="myeks"
         aws_region="us-west-2"
-        lb_link="http://a0d1fccc81f8540b6b844e3489279e36-340530396.us-west-2.elb.amazonaws.com/docker_volume/webapp/"
+        lb_link="http://a9d1bb6a946584802a84c3148dc977a9-1752241709.us-west-2.elb.amazonaws.com/docker_volume"
         efs_vol="/tmp/myefs/docker_volume/"
     }
     
