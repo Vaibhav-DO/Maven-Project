@@ -1,4 +1,4 @@
-[200~<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<body style="background-color:black;">
 		<header><title>DevOps</title></header>
