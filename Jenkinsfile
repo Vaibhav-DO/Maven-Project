@@ -1,5 +1,4 @@
-Pipeline{
-Agent any
+Pipeline{Agent any
 	Stages{
 		Stage(‘clone’){
 			Step(‘clone’){
