@@ -13,14 +13,7 @@ withMaven(globalMavenSettingsConfig: 'null', jdk: 'JAVA_HOME', maven: 'MAVEN_HOM
 }
       }	
 		}
-	Stage(‘deploy to tomcat’){
-		Step(‘deploy to tomcat’){
-			sshagent(['tomcat']) {
-  sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-              user@3.110.131.223:/var/lib/tomcat/webpages’
-
-}
-		}
-	  }
+	
 }
 }	
 
